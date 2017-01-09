@@ -1,1 +1,1 @@
-# comunity_detection
+# community detection by local neighborhood
