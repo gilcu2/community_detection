@@ -12,7 +12,7 @@ communityByHomogeneity<-function(g,nComunity=2,order=1,fVicinity=function(neighV
   g1=igraph::delete_vertex_attr(g,"name")  # Remove name attr
   nei=igraph::ego(g1,order)  #neighbors of each vertex
   neiV=sapply(nei,igraph::as_ids) # each neighborhood as normal vector
-  neiV1=fVicinity(neiV) # preprocess vicinities
+  neiV=fVicinity(neiV) # preprocess vicinities
   
   #edges weights
   edges=igraph::as_edgelist(g1)
@@ -20,5 +20,19 @@ communityByHomogeneity<-function(g,nComunity=2,order=1,fVicinity=function(neighV
     length(intersect(neiV[[e[1]]],neiV[[e[2]]]))^2/(length(neiV[[e[1]]])*length(neiV[[e[2]]]))
     })
   
+  g2=g1
+  while(T) {
+    minimums=which(edges_weight == min(edges_weight))
+  
+    g2=delete_edges(g2,minimums)  # deleting minimun edges
+  
+    ncomp=igraph::count_components(g2)
+    
+    if(ncomp>=nComunity) break
+    
+    edges_weight=edges_weight[-minimums]
+  }
+  
+  g2
   
 }
