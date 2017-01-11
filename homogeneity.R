@@ -24,7 +24,7 @@ communityByHomogeneity<-function(g,nComunity=2,order=1,fVicinity=function(neighV
   while(T) {
     minimums=which(edges_weight == min(edges_weight))
   
-    g2=delete_edges(g2,minimums)  # deleting minimun edges
+    g2=igraph::delete_edges(g2,minimums)  # deleting minimun edges
   
     ncomp=igraph::count_components(g2)
     
